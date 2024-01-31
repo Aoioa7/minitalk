@@ -6,7 +6,7 @@
 /*   By: nrontey <nrontey@student.42angouleme.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/23 16:56:10 by nrontey           #+#    #+#             */
-/*   Updated: 2024/01/24 15:48:20 by nrontey          ###   ########.fr       */
+/*   Updated: 2024/01/31 13:24:21 by nrontey          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,7 @@ int	main(void)
 	ft_putstr_fd("Server PID: ", STDOUT_FILENO);
 	ft_putnbr_fd(pid_server, STDOUT_FILENO);
 	ft_putchar_fd('\n', STDOUT_FILENO);
+	sigemptyset(&s_sigaction.sa_mask);
 	s_sigaction.sa_sigaction = retreive;
 	s_sigaction.sa_flags = SA_SIGINFO;
 	sigaction(SIGUSR1, &s_sigaction, 0);
