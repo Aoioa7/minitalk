@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: aichida <aichida@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/01/23 16:15:00 by nrontey           #+#    #+#             */
-/*   Updated: 2024/06/27 18:23:03 by aichida          ###   ########.fr       */
+/*   Created: 2024/06/28 02:01:59 by aichida           #+#    #+#             */
+/*   Updated: 2024/06/28 05:54:05 by aichida          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,6 @@
 
 # include <signal.h>
 # include <stdlib.h>
-# include <sys/signal.h>
-# include <sys/types.h>
 # include <unistd.h>
 
 void	ft_putchar_fd(char c, int fd);

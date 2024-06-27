@@ -6,7 +6,7 @@
 #    By: aichida <aichida@student.42tokyo.jp>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/06/27 17:26:28 by aichida           #+#    #+#              #
-#    Updated: 2024/06/27 17:53:31 by aichida          ###   ########.fr        #
+#    Updated: 2024/06/28 05:55:35 by aichida          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -28,6 +28,7 @@ $(SERVER): $(SERVER_SRCS) $(UTILS_SRCS)
 $(CLIENT): $(CLIENT_SRCS) $(UTILS_SRCS)
 	$(CC) $(CFLAGS) -o $@ $^
 
+# not necessary
 clean:
 	@rm -rf *o
 

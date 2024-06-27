@@ -5,53 +5,67 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: aichida <aichida@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/01/23 16:56:10 by nrontey           #+#    #+#             */
-/*   Updated: 2024/06/27 17:48:36 by aichida          ###   ########.fr       */
+/*   Created: 2024/06/28 02:02:16 by aichida           #+#    #+#             */
+/*   Updated: 2024/06/28 06:40:55 by aichida          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minitalk.h"
 
-static void	retreive(int sig, siginfo_t *info, void *context)
+// count -> saves how many signals came (reset when 8)
+// tmp_c -> saves char to put (modify bits step by step)
+
+// if SIGUSR1, stand 1 at the end of tmp_c bits
+// if SIGUSR2, 0
+
+// when count = 8, tmp_c is prepared to put or null (all SIGUSR2, all 0)
+// -> send a signal to client -> client send 8 then server send 1
+// count == 8 -> 0 -> 1
+
+static void	signal_handler(int sig, siginfo_t *info, void *context)
 {
-	static int				i = 0;
-	static unsigned char	c = 0;
-	pid_t					pid_client;
+	static int	count = 1;
+	static char	tmp_c = 0;
+	pid_t		client_pid;
 
 	(void)context;
 	if (info->si_pid)
-		pid_client = info->si_pid;
-	c = c | (sig == SIGUSR1);
-	if (++i == 8)
+		client_pid = info->si_pid;
+	tmp_c |= (sig == SIGUSR1);
+	if (count == 8)
 	{
-		i = 0;
-		if (!c)
+		count = 0;
+		if (!tmp_c)
+			kill(client_pid, SIGUSR1);
+		else
 		{
-			kill(pid_client, SIGUSR1);
-			return ;
+			ft_putchar_fd(tmp_c, 1);
+			tmp_c = 0;
+			kill(client_pid, SIGUSR2);
 		}
-		ft_putchar_fd(c, 1);
-		c = 0;
-		kill(pid_client, SIGUSR2);
 	}
 	else
-		c = c << 1;
+		tmp_c <<= 1;
+	count++;
 }
+
+// start this program -> display information -> config server
+// -> wait for & response to signals
 
 int	main(void)
 {
-	struct sigaction	s_sigaction;
-	pid_t				pid_server;
+	struct sigaction	server_sigaction;
+	pid_t				server_pid;
 
-	pid_server = getpid();
-	ft_putstr_fd("Server PID: ", STDOUT_FILENO);
-	ft_putnbr_fd(pid_server, STDOUT_FILENO);
-	ft_putchar_fd('\n', STDOUT_FILENO);
-	sigemptyset(&s_sigaction.sa_mask);
-	s_sigaction.sa_sigaction = retreive;
-	s_sigaction.sa_flags = SA_SIGINFO;
-	sigaction(SIGUSR1, &s_sigaction, 0);
-	sigaction(SIGUSR2, &s_sigaction, 0);
+	server_pid = getpid();
+	ft_putstr_fd("Server-PID: ", 1);
+	ft_putnbr_fd(server_pid, 1);
+	ft_putchar_fd('\n', 1);
+	sigemptyset(&server_sigaction.sa_mask);
+	server_sigaction.sa_sigaction = signal_handler;
+	server_sigaction.sa_flags = SA_SIGINFO;
+	sigaction(SIGUSR1, &server_sigaction, 0);
+	sigaction(SIGUSR2, &server_sigaction, 0);
 	while (1)
 		pause();
 	return (0);

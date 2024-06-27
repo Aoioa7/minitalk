@@ -6,7 +6,7 @@
 /*   By: aichida <aichida@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/27 17:52:07 by aichida           #+#    #+#             */
-/*   Updated: 2024/06/27 18:20:36 by aichida          ###   ########.fr       */
+/*   Updated: 2024/06/28 05:53:07 by aichida          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@ void	ft_putchar_fd(char c, int fd)
 	write(fd, &c, 1);
 }
 
+// vs null
+
 void	ft_putstr_fd(char *s, int fd)
 {
 	if (!s)
@@ -24,6 +26,8 @@ void	ft_putstr_fd(char *s, int fd)
 	while (*s)
 		write(fd, s++, 1);
 }
+
+// vs overflow
 
 void	ft_putnbr_fd(int n, int fd)
 {
@@ -53,6 +57,8 @@ size_t	ft_strlen(const char *s)
 		i++;
 	return (i);
 }
+
+// pre-process non num chars
 
 int	ft_atoi(const char *s)
 {
