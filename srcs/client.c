@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   client.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nrontey <nrontey@student.42angouleme.fr    +#+  +:+       +#+        */
+/*   By: aichida <aichida@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/23 16:22:43 by nrontey           #+#    #+#             */
-/*   Updated: 2024/01/31 13:31:48 by nrontey          ###   ########.fr       */
+/*   Updated: 2024/06/27 17:47:31 by aichida          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minitalk.h"
+#include "../minitalk.h"
 
 static void	ft_exit_failure(void)
 {
@@ -34,8 +34,8 @@ static void	retreive(int signal)
 
 static void	send_signal(pid_t pid, char *str)
 {
-	int		i;
-	int		j;
+	int	i;
+	int	j;
 
 	j = -1;
 	while (str[++j])

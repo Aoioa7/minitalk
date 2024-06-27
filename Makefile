@@ -1,29 +1,38 @@
-CC = gcc
-CFLAGS = -Wall -Wextra -Werror -g
-LIBFT = libft/libft.a
-LIBFT_SRC = $(shell find libft -name '*.c')
-LIBFT_OBJ = $(LIBFT_SRC:.c=.o)
+# **************************************************************************** #
+#                                                                              #
+#                                                         :::      ::::::::    #
+#    Makefile                                           :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: aichida <aichida@student.42tokyo.jp>       +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2024/06/27 17:26:28 by aichida           #+#    #+#              #
+#    Updated: 2024/06/27 17:53:31 by aichida          ###   ########.fr        #
+#                                                                              #
+# **************************************************************************** #
+
 SERVER = server
 CLIENT = client
-SERVER_SRC = server.c
-CLIENT_SRC = client.c
 
-all: $(LIBFT) $(SERVER) $(CLIENT)
+SERVER_SRCS = srcs/server.c
+CLIENT_SRCS = srcs/client.c
+UTILS_SRCS = srcs/utils.c
 
-$(LIBFT): $(LIBFT_OBJ)
-	ar rcs $@ $^
+CC = cc
+CFLAGS = -Wall -Wextra -Werror 
 
-$(SERVER): $(SERVER_SRC) $(LIBFT)
+all: $(SERVER) $(CLIENT)
+
+$(SERVER): $(SERVER_SRCS) $(UTILS_SRCS)
 	$(CC) $(CFLAGS) -o $@ $^
 
-$(CLIENT): $(CLIENT_SRC) $(LIBFT)
+$(CLIENT): $(CLIENT_SRCS) $(UTILS_SRCS)
 	$(CC) $(CFLAGS) -o $@ $^
 
 clean:
-	rm -f $(LIBFT_OBJ)
+	@rm -rf *o
 
 fclean: clean
-	rm -f $(LIBFT) $(SERVER) $(CLIENT)
+	@rm -rf $(UTILS) $(SERVER) $(CLIENT)
 
 re: fclean all
 
